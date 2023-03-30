@@ -1,0 +1,50 @@
+.profile__image-box {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  margin-right: 30px;
+  object-position: center;
+  cursor: pointer;
+}
+
+.profile__image-box::after,
+.profile__image-box::before {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  transition: opacity .5s linear;
+}
+
+.profile__image-box::before {
+  background: rgba(0, 0, 0, .8);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.profile__image-box::after {
+  background-image: url(../../../images/edit-avatar.svg);
+  background-size: contain;
+  height: 26px;
+  width: 26px;
+  left: 50%;
+  opacity: 0;
+  top: 50%;
+  transform: opacity .5s linear;
+}
+
+.profile__image-box:hover {
+  cursor: pointer;
+}
+
+.profile__image-box:hover::before {
+  background: rgba(0, 0, 0, .8);
+}
+
+.profile__image-box:hover::after {
+  opacity: 1;
+}

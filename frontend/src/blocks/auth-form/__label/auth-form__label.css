@@ -1,0 +1,7 @@
+.auth-form__label {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+
+}

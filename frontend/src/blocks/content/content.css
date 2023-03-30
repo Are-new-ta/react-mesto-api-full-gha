@@ -1,0 +1,27 @@
+.content {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 425px) {
+  .content {
+    max-width: 320px;
+  }
+}
+
+@media screen and (min-width: 426px) and (max-width: 768px) {
+  .content {
+    max-width: 95%;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .content {
+    max-width: 95%;
+  }
+}

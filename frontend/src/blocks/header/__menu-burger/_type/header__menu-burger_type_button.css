@@ -1,0 +1,17 @@
+.header__menu-burger_type_button {
+  grid-area: btn;
+  display: none;
+  background-color: inherit;
+  border: 0;
+  transition: opacity .5s ease;
+}
+
+.header__menu-burger_type_button:hover {
+  opacity: .6;
+}
+
+@media screen and (max-width: 640px) {
+  .header__menu-burger_type_button {
+    display: block;
+  }
+}
