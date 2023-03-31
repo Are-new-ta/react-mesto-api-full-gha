@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "dotenv": "^16.0.3",
     "express-winston": "^4.2.0",
     "winston": "^3.8.2"
   }
