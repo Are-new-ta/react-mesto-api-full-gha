@@ -1,4 +1,5 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'https://api.mesto.annausova.nomoredomains.work';
+// export const BASE_URL = 'https://auth.nomoreparties.co';
 
 function _checkResponse(res) {
   if (res.ok) {

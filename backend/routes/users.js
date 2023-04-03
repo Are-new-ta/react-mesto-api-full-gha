@@ -33,5 +33,3 @@ router.patch('/me/avatar', celebrate({
 }), updateUserAvatar);
 
 module.exports = router;
-
-// mongoose.isObjectIdOrHexString

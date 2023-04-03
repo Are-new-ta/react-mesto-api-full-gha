@@ -10,20 +10,17 @@ const { errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
 const routeUsers = require('./routes/users');
 const routeCards = require('./routes/cards');
-const errorHandler = require('./errors/errors');
+const { errorHandler } = require('./errors/errors');
+const { PORT, LOCALHOST } = require('./config');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-
-const LOCALHOST = 'mongodb://localhost:27017/mestodb';
-const { PORT = 3000 } = process.env;
-
-// const { PORT = 3000, LOCALHOST = 'mongodb://localhost:127.0.0.1/mestodb' } = process.env;
 
 mongoose.connect(LOCALHOST);
 mongoose.set('strictQuery', true);
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use('*', cors());
+// app.use(cors());
 app.use(helmet());
 
 const limiter = rateLimit({

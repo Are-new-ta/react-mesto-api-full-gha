@@ -8,9 +8,6 @@ const {
   deleteCard,
 } = require('../controllers/cards');
 
-// const mongoose = require('mongoose');
-// const ObjectId = new mongoose.Types.ObjectId();
-
 router.post('/', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
