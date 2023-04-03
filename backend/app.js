@@ -13,10 +13,10 @@ const routeCards = require('./routes/cards');
 const errorHandler = require('./errors/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-// const LOCALHOST = 'mongodb://localhost:27017/mestodb';
-// const { PORT = 3000 } = process.env;
+const LOCALHOST = 'mongodb://localhost:27017/mestodb';
+const { PORT = 3000 } = process.env;
 
-const { PORT = 3000, LOCALHOST = 'mongodb://localhost:27017/mestodb' } = process.env;
+// const { PORT = 3000, LOCALHOST = 'mongodb://localhost:127.0.0.1/mestodb' } = process.env;
 
 mongoose.connect(LOCALHOST);
 mongoose.set('strictQuery', true);
@@ -45,5 +45,3 @@ app.use(errors());
 app.use(errorHandler);
 
 app.listen(PORT);
-
-// 2026f0a49a70f464172b56b42addba8d60f775cebe61db0f5b68865251b41759

@@ -27,19 +27,21 @@ const createUser = (req, res, next) => {
 };
 
 // возвращает всех пользователей//
+// убрала data: ... и в send только аругмент
 const getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
+    .then((users) => res.send(users))
     .catch(next);
 };
 
 // возвращает пользователя по _id
+// убрала data: ... и в send только аругмент
 const getUserById = (req, res, next) => {
   const { id } = req.params;
   User.findById(id)
     .then((user) => {
       if (user) {
-        return res.send({ data: user });
+        return res.send(user);
       }
       throw new NotFoundError('Пользователь по указанному id не найден');
     })
@@ -47,6 +49,7 @@ const getUserById = (req, res, next) => {
 };
 
 // обновляем данные пользователя
+// убрала data: ... и в send только аругмент
 const updateUser = (req, res, next) => {
   const { name, about } = req.body;
   const { _id: userId } = req.user;
@@ -54,7 +57,7 @@ const updateUser = (req, res, next) => {
   User.findByIdAndUpdate(userId, { name, about }, { new: true, runValidators: true })
     .then((user) => {
       if (user) {
-        return res.send({ data: user });
+        return res.send(user);
       }
       throw new NotFoundError('Пользователь по указанному id не найден');
     })
@@ -62,6 +65,7 @@ const updateUser = (req, res, next) => {
 };
 
 // обновляем данные аватар
+// убрала data: ... и в send только аругмент
 const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
   const { _id: userId } = req.user;
@@ -69,7 +73,7 @@ const updateUserAvatar = (req, res, next) => {
   User.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: true })
     .then((user) => {
       if (user) {
-        return res.send({ data: user });
+        return res.send(user);
       }
       throw new NotFoundError('Пользователь по указанному id не найден');
     })
