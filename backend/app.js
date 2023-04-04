@@ -1,9 +1,7 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
-// eslint-disable-next-line no-unused-vars
 const cors = require('cors');
 const { errors } = require('celebrate');
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -19,8 +17,8 @@ mongoose.set('strictQuery', true);
 
 const app = express();
 app.use(express.json());
-app.use('*', cors());
-// app.use(cors());
+// app.use('*', cors());
+app.use(cors());
 app.use(helmet());
 
 const limiter = rateLimit({
