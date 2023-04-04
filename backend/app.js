@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cors = require('cors');
 const { errors } = require('celebrate');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const rateLimit = require('express-rate-limit');
 const routeUsers = require('./routes/users');
 const routeCards = require('./routes/cards');
