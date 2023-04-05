@@ -9,7 +9,7 @@ function Register({ register }) {
         buttonText='Зарегистрироваться'
         onSubmit={register} />
       <NavLink
-        to="/sign-in"
+        to="/signin"
         className="registration__link ">
         Уже зарегистрированы? Войти
       </NavLink>

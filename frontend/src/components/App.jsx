@@ -77,7 +77,7 @@ function App() {
           setLoggedIn(true);
           setIsSuccess(true);
           // handlerInfoTooltip();
-          navigate("/sign-in", { replace: true });
+          navigate("/signin", { replace: true });
         }
       })
       .catch((error) => {
@@ -119,7 +119,7 @@ function App() {
   function signOut(e) {
     e.preventDefault();
     localStorage.removeItem("jwt");
-    navigate("/sign-in", { replace: false })
+    navigate("/signin", { replace: false })
   }
 
   function handleEditAvatarClick() {
@@ -304,11 +304,11 @@ function App() {
             } />
 
           <Route
-            path='/sign-up'
+            path='/signup'
             element={<Register register={handleRegisterClick} />} />
 
           <Route
-            path='/sign-in'
+            path='/signin'
             element={<Login login={handleLoginClick} />} />
 
         </Routes>

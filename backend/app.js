@@ -7,7 +7,12 @@ const { errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
 const routeUsers = require('./routes/users');
 const routeCards = require('./routes/cards');
+const routeSignup = require('./routes/signup');
+const routeSignin = require('./routes/signin');
+const { auth } = require('./middlewares/auth');
+
 const { errorHandler } = require('./errors/errors');
+const NotFoundError = require('./errors/NotFoundError');
 const { PORT, LOCALHOST } = require('./config');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -27,13 +32,18 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-app.use(requestLogger);
-
 app.use(limiter);
 
+app.use(requestLogger);
+
+app.use('/', routeSignup);
+app.use('/', routeSignin);
+app.use(auth);
 app.use('/users', routeUsers);
 app.use('/cards', routeCards);
-
+app.use((req, res, next) => {
+  next(new NotFoundError('Страница не найдена'));
+});
 app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
