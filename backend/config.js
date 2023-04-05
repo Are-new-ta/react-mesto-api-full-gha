@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const { NODE_ENV = 'production' } = process.env;
-const { PORT = '3000' } = process.env;
+const { PORT = '3001' } = process.env;
 const { JWT_SECRET } = process.env;
 const { LOCALHOST = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 

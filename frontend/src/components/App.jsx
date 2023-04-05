@@ -19,14 +19,14 @@ import Login from "./Login";
 
 function App() {
 
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);//
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);//
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);//
-  const [isConfirmationDeleteCardPopup, setConfirmationDeleteCardPopup] = useState(false);//
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isConfirmationDeleteCardPopup, setConfirmationDeleteCardPopup] = useState(false);
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false)
   const [cards, setCards] = useState([]);//
-  const [deletedCard, setDeletedCard] = useState({ name: '', link: '' });//
-  const [selectedCard, setSelectedCard] = useState({ bool: false, alt: '', src: '' });//
+  const [deletedCard, setDeletedCard] = useState({ name: '', link: '' });
+  const [selectedCard, setSelectedCard] = useState({ bool: false, alt: '', src: '' });
   const [currentUser, setCurrentUser] = useState({});//
   const [renderLoading, setRenderLoading] = useState(false)//
 
