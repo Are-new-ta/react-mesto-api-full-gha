@@ -4,6 +4,7 @@ const {
   login,
 } = require('../controllers/users');
 
+// signin
 router.post(
   '/signin',
   celebrate({

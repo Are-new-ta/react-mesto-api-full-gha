@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom/dist";
 import Header from './Header';
 import Main from './Main';
@@ -30,7 +30,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});//
   const [renderLoading, setRenderLoading] = useState(false)//
 
-  //sign-in and sign-up
+  //signin and signup
   const [isSuccess, setIsSuccess] = useState(false);
   const [isShowUser, setIsShowUser] = useState(false);
   const [email, setEmail] = useState('')
@@ -67,7 +67,7 @@ function App() {
           console.log(`Ошибка: ${error}`);
         })
     }
-  }, [])
+  }, [navigate]) //добавила тут navigate 
 
   // функция для регистрации пользователя
   function handleRegisterClick(email, password) {
@@ -76,16 +76,14 @@ function App() {
         if (res) {
           setLoggedIn(true);
           setIsSuccess(true);
-          // handlerInfoTooltip();
           navigate("/signin", { replace: true });
         }
       })
       .catch((error) => {
         setIsSuccess(false);
-        // handlerInfoTooltip();
         console.log(`Ошибка: ${error}`);
       })
-      .finally(() => handlerInfoTooltip());//после замечаний ревьюера
+      .finally(() => handlerInfoTooltip());
   }
 
   // функция для авторизаци пользователя
@@ -303,10 +301,12 @@ function App() {
               </>
             } />
 
+          {/* signup*/}
           <Route
             path='/signup'
             element={<Register register={handleRegisterClick} />} />
 
+          {/* signin*/}
           <Route
             path='/signin'
             element={<Login login={handleLoginClick} />} />

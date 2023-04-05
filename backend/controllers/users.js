@@ -28,7 +28,6 @@ const createUser = (req, res, next) => {
 };
 
 // возвращает всех пользователей//
-// убрала data: ... и в send только аругмент
 const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send(users))
@@ -36,7 +35,6 @@ const getUsers = (req, res, next) => {
 };
 
 // возвращает пользователя по _id
-// убрала data: ... и в send только аругмент
 const getUserById = (req, res, next) => {
   const { id } = req.params;
   User.findById(id)
@@ -50,7 +48,6 @@ const getUserById = (req, res, next) => {
 };
 
 // обновляем данные пользователя
-// убрала data: ... и в send только аругмент
 const updateUser = (req, res, next) => {
   const { name, about } = req.body;
   const { _id: userId } = req.user;
@@ -66,7 +63,6 @@ const updateUser = (req, res, next) => {
 };
 
 // обновляем данные аватар
-// убрала data: ... и в send только аругмент
 const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
   const { _id: userId } = req.user;

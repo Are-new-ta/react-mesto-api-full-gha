@@ -6,6 +6,7 @@ function Header({ onSinOut, onShowUser, userEmail, onOpenBurgerMenu, onHideBurge
   return (
     <header className="header">
       <Routes>
+        {/* signup*/}
         <Route
           path='/signup'
           element={
@@ -15,7 +16,7 @@ function Header({ onSinOut, onShowUser, userEmail, onOpenBurgerMenu, onHideBurge
                 alt='логотип проекта Место' />
               <Link to='/signin' className='header__link'>Войти</Link>
             </div>} />
-
+        {/* signin*/}
         <Route
           path='/signin'
           element={

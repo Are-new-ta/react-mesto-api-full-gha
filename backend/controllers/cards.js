@@ -5,7 +5,6 @@ const NotFoundError = require('../errors/NotFoundError');
 const { STATUS_CREATED } = require('../errors/errors');
 
 // создаем карточку
-// убрала data: ... и в send только аругмент и добавила .populate('owner')
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
   const { _id: userId } = req.user;
@@ -16,7 +15,6 @@ const createCard = (req, res, next) => {
 };
 
 // возвращает все карточким
-// убрала data: ... и в send только аругмент
 const getCards = (req, res, next) => {
   Card.find({})
     .populate(['owner', 'likes'])
@@ -25,7 +23,6 @@ const getCards = (req, res, next) => {
 };
 
 // поставить лайк карточке
-// убрала data: ... и в send только аругмент и добавила .populate(['owner', 'likes'])
 const likeCard = (req, res, next) => {
   const { cardId } = req.params;
   const { _id: userId } = req.user;
@@ -41,7 +38,6 @@ const likeCard = (req, res, next) => {
 };
 
 // убрать лайк с карточки
-// убрала data: ... и в send только аругмент и добавила .populate(['owner', 'likes'])
 const dislikeCard = (req, res, next) => {
   const { cardId } = req.params;
   const { _id: userId } = req.user;
@@ -57,7 +53,6 @@ const dislikeCard = (req, res, next) => {
 };
 
 // удаление карточки
-// убрала data: ... и в send только аругмент
 const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   const { _id: userId } = req.user;

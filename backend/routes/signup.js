@@ -5,6 +5,7 @@ const {
   createUser,
 } = require('../controllers/users');
 
+// регистрация
 router.post(
   '/signup',
   celebrate({
