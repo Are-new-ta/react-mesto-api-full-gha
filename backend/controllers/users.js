@@ -5,8 +5,6 @@ const NotFoundError = require('../errors/NotFoundError');
 const { STATUS_CREATED } = require('../errors/errors');
 const { JWT_SECRET, NODE_ENV } = require('../config');
 
-// const { NODE_ENV, JWT_SECRET } = process.env;
-
 // создание нового пользователя
 const createUser = (req, res, next) => {
   const {
