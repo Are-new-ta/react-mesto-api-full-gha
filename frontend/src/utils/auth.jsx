@@ -1,5 +1,5 @@
-// export const BASE_URL = 'https://api.mesto.annausova.nomoredomains.work';
-export const BASE_URL = 'http://localhost:3001';
+export const BASE_URL = 'https://api.mesto.annausova.nomoredomains.work';
+// export const BASE_URL = 'http://localhost:3001';
 
 function _checkResponse(res) {
   if (res.ok) {
@@ -9,16 +9,16 @@ function _checkResponse(res) {
 }
 
 // проверка токена при загрузке страницы
-// export const checkToken = (jwt) => {
-//   return fetch(`${BASE_URL}/users/me`, {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Authorization': `Bearer ${jwt}`,
-//     }
-//   })
-//     .then(_checkResponse);
-// }
+export const checkToken = (jwt) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwt}`,
+    }
+  })
+    .then(_checkResponse);
+}
 
 // запрос регистрации
 export const register = (email, password) => {

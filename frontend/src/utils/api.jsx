@@ -121,8 +121,8 @@ class Api {
 }
 
 const api = new Api({
-  // url: 'https://api.mesto.annausova.nomoredomains.work',
-  url: 'http://localhost:3001/',
+  url: 'https://api.mesto.annausova.nomoredomains.work/',
+  // url: 'http://localhost:3001/',
   headers: {
     'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
     'Content-Type': 'application/json'
