@@ -52,22 +52,23 @@ function App() {
   }, [loggedIn]);
 
   // проверка токена
-  useEffect(() => {
-    const jwt = localStorage.getItem('jwt')
-    if (jwt) {
-      auth.checkToken(jwt)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            setEmail(res.data.email)
-            navigate('/', { replace: true })
-          }
-        })
-        .catch((error) => {
-          console.log(`Ошибка: ${error}`);
-        })
-    }
-  }, [navigate]) //добавила тут navigate 
+  // useEffect(() => {
+  //   const jwt = localStorage.getItem('jwt')
+  //   if (jwt) {
+  //     auth.checkToken(jwt)
+  //       .then((res) => {
+  //         if (res) {
+  //           setLoggedIn(true);
+  //           setEmail(res.data.email)
+  //           // setEmail(res.email)
+  //           navigate('/', { replace: true })
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.log(`Ошибка: ${error}`);
+  //       })
+  //   }
+  // }, [navigate]) //добавила тут navigate 
 
   // функция для регистрации пользователя
   function handleRegisterClick(email, password) {
@@ -79,11 +80,11 @@ function App() {
           navigate("/signin", { replace: true });
         }
       })
-      .catch((error) => {
-        setIsSuccess(false);
-        console.log(`Ошибка: ${error}`);
-      })
-      .finally(() => handlerInfoTooltip());
+    // .catch((error) => {
+    //   setIsSuccess(false);
+    //   console.log(`Ошибка: ${error}`);
+    // })
+    // .finally(() => handlerInfoTooltip());
   }
 
   // функция для авторизаци пользователя
