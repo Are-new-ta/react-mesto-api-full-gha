@@ -17,10 +17,7 @@ const createUser = (req, res, next) => {
       });
     })
     .then((user) => {
-      const { _id } = user;
-      res.status(STATUS_CREATED).send({
-        name, about, avatar, email, _id,
-      });
+      res.status(STATUS_CREATED).send(user);
     })
     .catch(next);
 };

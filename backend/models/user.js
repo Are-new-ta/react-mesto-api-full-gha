@@ -4,6 +4,8 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const userSchema = new mongoose.Schema(
   {
+    // _id: mongoose.Schema.Types.ObjectId,
+
     name: {
       required: true,
       default: 'Жак-Ив Кусто',
@@ -55,6 +57,9 @@ const userSchema = new mongoose.Schema(
     },
 
   },
+
+  // { _id: false },
+
   {
     versionKey: false,
     statics: {
@@ -66,10 +71,10 @@ const userSchema = new mongoose.Schema(
               return bcrypt.compare(password, user.password)
                 .then((matched) => {
                   if (matched) return user;
-                  return Promise.reject(new UnauthorizedError('Необходима авторизация'));
+                  return Promise.reject(new UnauthorizedError('Необходима авторизация 1'));
                 });
             }
-            return Promise.reject(new UnauthorizedError('Необходима авторизация'));
+            return Promise.reject(new UnauthorizedError('Необходима авторизация 2'));
           });
       },
     },
