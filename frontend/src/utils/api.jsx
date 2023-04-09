@@ -130,11 +130,3 @@ const api = new Api({
 });
 
 export default api;
-
-// const api = new Api({
-//   url: 'https://mesto.nomoreparties.co/v1/cohort-50/',
-//   headers: {
-//     authorization: 'eb1591ce-bee2-43ed-8aa3-111b6ba7c5d9',
-//     'content-type': 'application/json'
-//   }
-// });
