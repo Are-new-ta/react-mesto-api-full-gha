@@ -24,11 +24,11 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isConfirmationDeleteCardPopup, setConfirmationDeleteCardPopup] = useState(false);
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false)
-  const [cards, setCards] = useState([]);//
+  const [cards, setCards] = useState([]);
   const [deletedCard, setDeletedCard] = useState({ name: '', link: '' });
   const [selectedCard, setSelectedCard] = useState({ bool: false, alt: '', src: '' });
-  const [currentUser, setCurrentUser] = useState({});//
-  const [renderLoading, setRenderLoading] = useState(false)//
+  const [currentUser, setCurrentUser] = useState({});
+  const [renderLoading, setRenderLoading] = useState(false)
 
   //signin and signup
   const [isSuccess, setIsSuccess] = useState(false);
@@ -68,7 +68,7 @@ function App() {
           console.log(`Ошибка: ${error}`);
         })
     }
-  }, []) //добавила тут navigate 
+  }, [])
 
   // функция для регистрации пользователя
   function handleRegisterClick(email, password) {
@@ -95,7 +95,8 @@ function App() {
         setLoggedIn(true);
         setEmail(email)
         setIsSuccess(true);
-        navigate('/', { replace: true });
+        auth.checkToken(data.token).then(() => navigate('/', { replace: true }));
+        // navigate('/', { replace: true });
       })
       .catch((error) => {
         setLoggedIn(false);
@@ -115,11 +116,15 @@ function App() {
     setIsShowUser(isShowUser);
   };
 
+  // удаление токена при выходе из аккаунта
   function signOut(e) {
     e.preventDefault();
     localStorage.removeItem("jwt");
+    setCurrentUser({});//добавила пустой объект, чтобы после выхода данные старого пользователя
     navigate("/signin", { replace: false })
   }
+
+
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
