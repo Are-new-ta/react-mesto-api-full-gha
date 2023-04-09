@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 
@@ -26,7 +27,7 @@ router.patch('/me/avatar', celebrate({
   }),
 }), updateUserAvatar);
 
-router.get('/:id', celebrate({
+router.get('/:id([\da-fA-F]+)', celebrate({
   params: Joi.object().keys({
     id: Joi.string().alphanum().hex().length(24),
   }),
