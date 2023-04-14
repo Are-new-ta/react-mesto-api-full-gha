@@ -68,7 +68,7 @@ function App() {
           console.log(`Ошибка: ${error}`);
         })
     }
-  }, [])
+  }, [navigate]) //добавила navigate
 
   // функция для регистрации пользователя
   function handleRegisterClick(email, password) {

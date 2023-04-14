@@ -26,6 +26,7 @@ router.patch('/me/avatar', celebrate({
   }),
 }), updateUserAvatar);
 
+// eslint-disable-next-line no-useless-escape
 router.get('/:id([\da-fA-F]+)', celebrate({
   params: Joi.object().keys({
     id: Joi.string().alphanum().hex().length(24),
