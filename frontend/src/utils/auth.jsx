@@ -1,5 +1,4 @@
-export const BASE_URL = 'https://api.mesto.annausova.nomoredomains.work';
-// export const BASE_URL = 'http://localhost:3001';
+import { BASE_URL } from "./const";
 
 function _checkResponse(res) {
   if (res.ok) {
@@ -30,7 +29,7 @@ export const register = (email, password) => {
     },
     body: JSON.stringify({ email, password })
   })
-    .then(_checkResponse);
+  .then(_checkResponse)
 };
 
 // запрос авторизации

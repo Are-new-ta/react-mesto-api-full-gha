@@ -7,17 +7,17 @@ const { JWT_SECRET, NODE_ENV } = require('../config');
 
 // создание нового пользователя
 const createUser = (req, res, next) => {
-  const {
-    name, about, avatar, email, password,
-  } = req.body;
-  bcrypt.hash(password, 10)
+  const { email, password } = req.body;
+  bcrypt
+    .hash(password, 10)
     .then((hash) => {
       User.create({
-        name, about, avatar, email, password: hash,
-      })
-        .then((user) => {
-          res.status(STATUS_CREATED).send(user);
-        });
+        // name, about, avatar,
+        email,
+        password: hash,
+      }).then((user) => {
+        res.status(STATUS_CREATED).send(user);
+      });
     })
     .catch(next);
 };
@@ -47,7 +47,11 @@ const updateUser = (req, res, next) => {
   const { name, about } = req.body;
   const { _id: userId } = req.user;
 
-  User.findByIdAndUpdate(userId, { name, about }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(
+    userId,
+    { name, about },
+    { new: true, runValidators: true },
+  )
     .then((user) => {
       if (user) {
         return res.send(user);

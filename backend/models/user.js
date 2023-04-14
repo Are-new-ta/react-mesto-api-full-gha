@@ -4,10 +4,8 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const userSchema = new mongoose.Schema(
   {
-    // _id: mongoose.Schema.Types.ObjectId,
-
     name: {
-      required: true,
+      required: false,
       default: 'Жак-Ив Кусто',
       type: String,
       validate: {
@@ -17,21 +15,25 @@ const userSchema = new mongoose.Schema(
     },
 
     about: {
-      required: true,
+      required: false,
       default: 'Исследователь',
       type: String,
       validate: {
         validator: ({ length }) => length >= 2 && length <= 30,
-        message: 'Информация о пользователе должна быть длиной от 2 до 30 символов',
+        message:
+          'Информация о пользователе должна быть длиной от 2 до 30 символов',
       },
     },
 
     avatar: {
-      required: true,
+      required: false,
       type: String,
-      default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
+      default:
+        'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg',
       validate: {
-        validator: (url) => /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(url),
+        validator: (url) => /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(
+          url,
+        ),
         message: 'Введите корректный URL адрес',
       },
     },
@@ -55,7 +57,6 @@ const userSchema = new mongoose.Schema(
         message: 'Пароль должен состоять минимум из 6 символов',
       },
     },
-
   },
 
   {
@@ -66,13 +67,16 @@ const userSchema = new mongoose.Schema(
           .select('+password')
           .then((user) => {
             if (user) {
-              return bcrypt.compare(password, user.password)
-                .then((matched) => {
-                  if (matched) return user;
-                  return Promise.reject(new UnauthorizedError('Необходима авторизация 1'));
-                });
+              return bcrypt.compare(password, user.password).then((matched) => {
+                if (matched) return user;
+                return Promise.reject(
+                  new UnauthorizedError('Необходима авторизация 1'),
+                );
+              });
             }
-            return Promise.reject(new UnauthorizedError('Необходима авторизация 2'));
+            return Promise.reject(
+              new UnauthorizedError('Необходима авторизация 2'),
+            );
           });
       },
     },

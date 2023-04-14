@@ -51,6 +51,7 @@ function App() {
     }
   }, [loggedIn]);
 
+
   // проверка токена
   useEffect(() => {
     const jwt = localStorage.getItem('jwt')
@@ -59,8 +60,7 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            setEmail(res.data.email)
-            // setEmail(res.email)
+            setCurrentUser(res);
             navigate('/', { replace: true })
           }
         })
@@ -80,11 +80,11 @@ function App() {
           navigate("/signin", { replace: true });
         }
       })
-    // .catch((error) => {
-    //   setIsSuccess(false);
-    //   console.log(`Ошибка: ${error}`);
-    // })
-    // .finally(() => handlerInfoTooltip());
+      .catch((error) => {
+        setIsSuccess(false);
+        console.log(`Ошибка: ${error}`);
+      })
+      .finally(() => handlerInfoTooltip());
   }
 
   // функция для авторизаци пользователя
@@ -96,7 +96,6 @@ function App() {
         setEmail(email)
         setIsSuccess(true);
         auth.checkToken(data.token).then(() => navigate('/', { replace: true }));
-        // navigate('/', { replace: true });
       })
       .catch((error) => {
         setLoggedIn(false);
@@ -119,12 +118,10 @@ function App() {
   // удаление токена при выходе из аккаунта
   function signOut(e) {
     e.preventDefault();
+    setLoggedIn(false)
     localStorage.removeItem("jwt");
-    setCurrentUser({});//добавила пустой объект, чтобы после выхода данные старого пользователя
     navigate("/signin", { replace: false })
   }
-
-
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -251,11 +248,11 @@ function App() {
   }
 
   //логика закрывания любого попапа с помощью нажатия клавиши Esc
-  //Создаем переменную isOpen снаружи useEffect, в которой следим за всеми состояниями попапов. 
+  //Создаем переменную isOpen снаружи useEffect, в которой следим за всеми состояниями попапов.
   //Если хоть одно состояние true или не null, то какой-то попап открыт, значит, навешивать нужно обработчик.
   //Объявляем функцию внутри useEffect, чтобы она не теряла свою ссылку при обновлении компонента.
   //И не забываем удалять обработчик в clean up функции через return
-  //А также массив зависимостей c isOpen, чтобы отслеживать изменение этого показателя открытости. 
+  //А также массив зависимостей c isOpen, чтобы отслеживать изменение этого показателя открытости.
   //Как только он становится true, то навешивается обработчик, когда в false, тогда удаляется обработчик.*}
 
   const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || isInfoTooltipPopupOpen || selectedCard.bool
@@ -302,7 +299,6 @@ function App() {
                   onEditProfile={handleEditProfileClick}
                   onAddPlace={handleAddPlaceClick}
                   onClose={closeAllPopups} />
-
                 <Footer />
               </>
             } />

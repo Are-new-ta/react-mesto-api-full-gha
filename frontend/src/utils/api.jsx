@@ -1,3 +1,5 @@
+import { BASE_URL } from "./const";
+
 class Api {
   constructor(data) {
     this._url = data.url;
@@ -6,7 +8,7 @@ class Api {
 
   //получаем данные по ссылке
   getInitialCards() {
-    return fetch(`${this._url}cards`, {
+    return fetch(`${this._url}/cards`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -18,7 +20,7 @@ class Api {
 
   //получаем данные юзера
   getUserProfile() {
-    return fetch(`${this._url}users/me`, {
+    return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -29,9 +31,8 @@ class Api {
   }
 
   //меняем аватарку
-  // changeAvatar(avatarLink)изначальная версия, в аргументах не объект, а строка
   changeAvatar({ avatar }) {
-    return fetch(`${this._url}users/me/avatar`, {
+    return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -45,9 +46,8 @@ class Api {
   }
 
   //меняем данные пользователя
-  // changeUserProfile(userName, userJob) изначальная версия, в аргументах не объект, а строка
   changeUserProfile({ name, about }) {
-    return fetch(`${this._url}users/me`, {
+    return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -63,7 +63,7 @@ class Api {
 
   //добавляем карточку
   addNewCard({ name, link }) {
-    return fetch(`${this._url}cards`, {
+    return fetch(`${this._url}/cards`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -79,7 +79,7 @@ class Api {
 
   //удаляем карточку
   deleteCard(id) {
-    return fetch(`${this._url}cards/${id}`, {
+    return fetch(`${this._url}/cards/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -92,7 +92,7 @@ class Api {
   //меняем статус лайка на карточке
   changeLikeCardStatus(cardId, isLiked) {
     if (isLiked) {
-      return fetch(`${this._url}cards/${cardId}/likes`, {
+      return fetch(`${this._url}/cards/${cardId}/likes`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -101,7 +101,7 @@ class Api {
       })
         .then((res) => this._checkServerResponse(res));
     } else {
-      return fetch(`${this._url}cards/${cardId}/likes`, {
+      return fetch(`${this._url}/cards/${cardId}/likes`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -121,8 +121,7 @@ class Api {
 }
 
 const api = new Api({
-  url: 'https://api.mesto.annausova.nomoredomains.work/',
-  // url: 'http://localhost:3001/',
+  url: BASE_URL,
   headers: {
     'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
     'Content-Type': 'application/json'

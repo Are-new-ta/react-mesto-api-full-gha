@@ -6,6 +6,7 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCardLike
 
   //подписываемся на контент CurrentUserContext
   const currentUser = useContext(CurrentUserContext);
+  // console.log("currentUser", currentUser)
 
   return (
     <main className="content root__main">

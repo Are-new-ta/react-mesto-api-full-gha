@@ -1,6 +1,5 @@
 require('dotenv').config();
 
-// const { NODE_ENV = 'production' } = process.env;
 const { NODE_ENV } = process.env;
 const { PORT = '3001' } = process.env;
 const { JWT_SECRET } = process.env;
