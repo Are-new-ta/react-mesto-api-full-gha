@@ -1,13 +1,16 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const User = require("../models/user");
-const NotFoundError = require("../errors/NotFoundError");
-const { STATUS_CREATED } = require("../errors/errors");
-const { JWT_SECRET, NODE_ENV } = require("../config");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
+const NotFoundError = require('../errors/NotFoundError');
+const { STATUS_CREATED } = require('../errors/errors');
+const { JWT_SECRET, NODE_ENV } = require('../config');
 
 // создание нового пользователя
 const createUser = (req, res, next) => {
   const { email, password } = req.body;
+  if (User.hasUserByEmail(email)) {
+    throw new NotFoundError('Пользователь с таким email уже существует');
+  }
   bcrypt
     .hash(password, 10)
     .then((hash) => {

@@ -82,8 +82,12 @@ const userSchema = new mongoose.Schema(
             );
           });
       },
+      hasUserByEmail(email) {
+        return this.findOne({ email })
+          .then((user) => (!!user));
+      },
     },
-  }
+  },
 );
 
 module.exports = mongoose.model("user", userSchema);
