@@ -38,37 +38,16 @@ function App() {
   const navigate = useNavigate();
 
   //получаем данные пользователя и карточек
-  useEffect(() => {
-    if (loggedIn) {
-      Promise.all([api.getUserProfile(), api.getInitialCards()])
-        .then(([userData, arrCards]) => {
-          setCurrentUser(userData);
-          setCards(arrCards);
-        })
-        .catch((error) => {
-          console.log(`Ошибка: ${error}`);
-        });
-    }
-  }, [loggedIn]);
-
-
-  // проверка токена
-  useEffect(() => {
-    const jwt = localStorage.getItem('jwt')
-    if (jwt) {
-      auth.checkToken(jwt)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            setCurrentUser(res);
-            navigate('/', { replace: true })
-          }
-        })
-        .catch((error) => {
-          console.log(`Ошибка: ${error}`);
-        })
-    }
-  }, [navigate]) //добавила navigate
+  const getDataUser = () => {
+    Promise.all([api.getUserProfile(), api.getInitialCards()])
+      .then(([userData, arrCards]) => {
+        setCurrentUser(userData);
+        setCards(arrCards);
+      })
+      .catch((error) => {
+        console.log(`Ошибка: ${error}`);
+      });
+  }
 
   // функция для регистрации пользователя
   function handleRegisterClick(email, password) {
@@ -95,14 +74,56 @@ function App() {
         setLoggedIn(true);
         setEmail(email)
         setIsSuccess(true);
-        auth.checkToken(data.token).then(() => navigate('/', { replace: true }));
+        navigate('/', { replace: true });
+        // auth.checkToken(data.token).then(() => navigate('/', { replace: true }));
       })
+      .then(() => getDataUser())
       .catch((error) => {
         setLoggedIn(false);
         handlerInfoTooltip();
         console.log(`Ошибка: ${error}`);
       })
   }
+
+  // проверка токена
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt')
+    if (jwt) {
+      auth.checkToken(jwt)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+            setCurrentUser(res); //было
+            // setEmail(email);//стало
+            getDataUser();
+            navigate('/', { replace: true })
+          }
+        })
+        .catch((error) => {
+          console.log(`Ошибка: ${error}`);
+        })
+    }
+  }, [navigate])
+
+  //загружаем данные пользователя и карточек
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     getDataUser();
+  //   }
+  // }, [loggedIn]);
+
+  //загружаем данные пользователя и карточек
+  useEffect(() => {
+    const token = localStorage.getItem('jwt');
+    if (token && loggedIn) {
+      api.getAppInfo(token)
+        .then(([cardData, userData]) => {
+          setCurrentUser(userData.data);
+          setCards(cardData.data);
+        })
+        .catch(err => console.log(err))
+    }
+  }, [loggedIn])
 
   //функции Header
   function openBurgerMenu(e) {
