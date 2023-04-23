@@ -9,7 +9,7 @@ const { JWT_SECRET, NODE_ENV } = require('../config');
 const createUser = (req, res, next) => {
   const { email, password } = req.body;
   if (User.hasUserByEmail(email)) {
-    throw new NotFoundError('Пользователь с таким email уже существует');
+    return res.status(409).send({ message: 'Пользователь с таким электронным адресом уже зарегистрирован' });
   }
   bcrypt
     .hash(password, 10)
@@ -18,9 +18,7 @@ const createUser = (req, res, next) => {
         // name, about, avatar,
         email,
         password: hash,
-      }).then((user) => {
-        res.status(STATUS_CREATED).send(user);
-      });
+      }).then((user) => res.status(STATUS_CREATED).send(user));
     })
     .catch(next);
 };
@@ -40,7 +38,7 @@ const getUserById = (req, res, next) => {
       if (user) {
         return res.send(user);
       }
-      throw new NotFoundError("Пользователь по указанному id не найден");
+      throw new NotFoundError('Пользователь по указанному id не найден');
     })
     .catch(next);
 };
@@ -53,13 +51,13 @@ const updateUser = (req, res, next) => {
   User.findByIdAndUpdate(
     userId,
     { name, about },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .then((user) => {
       if (user) {
         return res.send(user);
       }
-      throw new NotFoundError("Пользователь по указанному id не найден");
+      throw new NotFoundError('Пользователь по указанному id не найден');
     })
     .catch(next);
 };
@@ -74,7 +72,7 @@ const updateUserAvatar = (req, res, next) => {
       if (user) {
         return res.send(user);
       }
-      throw new NotFoundError("Пользователь по указанному id не найден");
+      throw new NotFoundError('Пользователь по указанному id не найден');
     })
     .catch(next);
 };
@@ -85,8 +83,8 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === "production" ? JWT_SECRET : "some-secret-key",
-        { expiresIn: "7d" }
+        NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
+        { expiresIn: '7d' },
       );
       res.send({ token });
     })
