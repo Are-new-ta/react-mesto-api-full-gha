@@ -8,14 +8,18 @@ const { JWT_SECRET, NODE_ENV } = require('../config');
 // создание нового пользователя
 const createUser = (req, res, next) => {
   const { email, password } = req.body;
-  if (User.hasUserByEmail(email)) {
-    return res.status(409).send({ message: 'Пользователь с таким электронным адресом уже зарегистрирован' });
-  }
+  User.hasUserByEmail(email)
+    .then((user) => {
+      if (user) {
+        return res.status(409).send(user);
+        // return res.status(409).send({ message: 'Пользователь с таким электронным адресом уже зарегистрирован' });
+      }
+    })
+    .catch(next);
   bcrypt
     .hash(password, 10)
     .then((hash) => {
       User.create({
-        // name, about, avatar,
         email,
         password: hash,
       }).then((user) => res.status(STATUS_CREATED).send(user));

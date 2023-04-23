@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
 const UnauthorizedError = require("../errors/UnauthorizedError");
+const fs = require('fs');
 
 const userSchema = new mongoose.Schema(
   {
@@ -84,7 +85,8 @@ const userSchema = new mongoose.Schema(
       },
       hasUserByEmail(email) {
         return this.findOne({ email })
-          .then((user) => (!!user));
+          .select('+email');
+        // .then((user) => (Object.keys(user).length == 0));
       },
     },
   },
