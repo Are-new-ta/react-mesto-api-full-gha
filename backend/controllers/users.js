@@ -1,9 +1,9 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/user');
-const NotFoundError = require('../errors/NotFoundError');
-const { STATUS_CREATED } = require('../errors/errors');
-const { JWT_SECRET, NODE_ENV } = require('../config');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+const NotFoundError = require("../errors/NotFoundError");
+const { STATUS_CREATED } = require("../errors/errors");
+const { JWT_SECRET, NODE_ENV } = require("../config");
 
 // создание нового пользователя
 const createUser = (req, res, next) => {
@@ -37,7 +37,7 @@ const getUserById = (req, res, next) => {
       if (user) {
         return res.send(user);
       }
-      throw new NotFoundError('Пользователь по указанному id не найден');
+      throw new NotFoundError("Пользователь по указанному id не найден");
     })
     .catch(next);
 };
@@ -50,13 +50,13 @@ const updateUser = (req, res, next) => {
   User.findByIdAndUpdate(
     userId,
     { name, about },
-    { new: true, runValidators: true },
+    { new: true, runValidators: true }
   )
     .then((user) => {
       if (user) {
         return res.send(user);
       }
-      throw new NotFoundError('Пользователь по указанному id не найден');
+      throw new NotFoundError("Пользователь по указанному id не найден");
     })
     .catch(next);
 };
@@ -71,7 +71,7 @@ const updateUserAvatar = (req, res, next) => {
       if (user) {
         return res.send(user);
       }
-      throw new NotFoundError('Пользователь по указанному id не найден');
+      throw new NotFoundError("Пользователь по указанному id не найден");
     })
     .catch(next);
 };
@@ -82,8 +82,8 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
-        { expiresIn: '7d' },
+        NODE_ENV === "production" ? JWT_SECRET : "some-secret-key",
+        { expiresIn: "7d" }
       );
       res.send({ token });
     })
