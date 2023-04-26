@@ -1,30 +1,27 @@
 const mongoose = require('mongoose');
-const bcrypt = require("bcrypt");
-const UnauthorizedError = require("../errors/UnauthorizedError");
-const fs = require('fs');
+const bcrypt = require('bcrypt');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const userSchema = new mongoose.Schema(
   {
-    // _id: mongoose.Schema.Types.ObjectId,
-
     name: {
       required: false,
-      // default: 'Жак-Ив Кусто',
+      default: 'Жак-Ив Кусто',
       type: String,
       validate: {
         validator: ({ length }) => length >= 2 && length <= 30,
-        message: "Имя пользователя должно быть длиной от 2 до 30 символов",
+        message: 'Имя пользователя должно быть длиной от 2 до 30 символов',
       },
     },
 
     about: {
       required: false,
-      // default: 'Исследователь',
+      default: 'Исследователь',
       type: String,
       validate: {
         validator: ({ length }) => length >= 2 && length <= 30,
         message:
-          "Информация о пользователе должна быть длиной от 2 до 30 символов",
+          'Информация о пользователе должна быть длиной от 2 до 30 символов',
       },
     },
 
@@ -32,13 +29,12 @@ const userSchema = new mongoose.Schema(
       required: false,
       type: String,
       default:
-        "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
+        'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg',
       validate: {
-        validator: (url) =>
-          /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(
-            url
-          ),
-        message: "Введите корректный URL адрес",
+        validator: (url) => /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(
+          url,
+        ),
+        message: 'Введите корректный URL адрес',
       },
     },
 
@@ -48,7 +44,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       validate: {
         validator: (email) => /.+@.+\..+/.test(email),
-        message: "Введите корректный URL адрес",
+        message: 'Введите корректный URL адрес',
       },
     },
 
@@ -58,7 +54,7 @@ const userSchema = new mongoose.Schema(
       select: false,
       validate: {
         validator: ({ length }) => length >= 6,
-        message: "Пароль должен состоять минимум из 6 символов",
+        message: 'Пароль должен состоять минимум из 6 символов',
       },
     },
   },
@@ -68,28 +64,23 @@ const userSchema = new mongoose.Schema(
     statics: {
       findUserByCredentials(email, password) {
         return this.findOne({ email })
-          .select("+password")
+          .select('+password')
           .then((user) => {
             if (user) {
               return bcrypt.compare(password, user.password).then((matched) => {
                 if (matched) return user;
                 return Promise.reject(
-                  new UnauthorizedError("Необходима авторизация 1")
+                  new UnauthorizedError('Необходима авторизация 1'),
                 );
               });
             }
             return Promise.reject(
-              new UnauthorizedError("Необходима авторизация 2")
+              new UnauthorizedError('Необходима авторизация 2'),
             );
           });
-      },
-      hasUserByEmail(email) {
-        return this.findOne({ email })
-          .select('+email');
-        // .then((user) => (Object.keys(user).length == 0));
       },
     },
   },
 );
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model('user', userSchema);

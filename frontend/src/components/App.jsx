@@ -75,7 +75,6 @@ function App() {
         setEmail(email)
         setIsSuccess(true);
         navigate('/', { replace: true });
-        // auth.checkToken(data.token).then(() => navigate('/', { replace: true }));
       })
       .then(() => getDataUser())
       .catch((error) => {
@@ -93,8 +92,7 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            setCurrentUser(res); //было
-            // setEmail(email);//стало
+            setCurrentUser(res);
             getDataUser();
             navigate('/', { replace: true })
           }
@@ -106,22 +104,10 @@ function App() {
   }, [navigate])
 
   //загружаем данные пользователя и карточек
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     getDataUser();
-  //   }
-  // }, [loggedIn]);
-
-  //загружаем данные пользователя и карточек
   useEffect(() => {
     const token = localStorage.getItem('jwt');
     if (token && loggedIn) {
-      api.getAppInfo(token)
-        .then(([cardData, userData]) => {
-          setCurrentUser(userData.data);
-          setCards(cardData.data);
-        })
-        .catch(err => console.log(err))
+      getDataUser();
     }
   }, [loggedIn])
 

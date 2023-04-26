@@ -2,29 +2,65 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
+const ConflictError = require('../errors/ConflictError');
+const BadRequestError = require('../errors/ConflictError');
 const { STATUS_CREATED } = require('../errors/errors');
 const { JWT_SECRET, NODE_ENV } = require('../config');
 
-// создание нового пользователя
+// создание нового пользователя ДО
+// const createUser = (req, res, next) => {
+//   const { email, password } = req.body;
+//   bcrypt
+//     .hash(password, 10)
+//     .then((hash) => {
+//       User.create({
+//         email,
+//         password: hash,
+//       }).then((user) => {
+//         res.status(STATUS_CREATED).send(user);
+//       });
+//     })
+//     .catch(next);
+// };
+
+// создание нового пользователя ПОСЛЕ
 const createUser = (req, res, next) => {
-  const { email, password } = req.body;
-  User.hasUserByEmail(email)
+  const {
+    email,
+    password,
+    name,
+    about,
+    avatar,
+  } = req.body;
+
+  bcrypt.hash(password, 10)
+    .then((hash) => User.create({
+      email,
+      password: hash,
+      name,
+      about,
+      avatar,
+    }))
     .then((user) => {
-      if (user) {
-        return res.status(409).send(user);
-        // return res.status(409).send({ message: 'Пользователь с таким электронным адресом уже зарегистрирован' });
-      }
-    })
-    .catch(next);
-  bcrypt
-    .hash(password, 10)
-    .then((hash) => {
-      User.create({
+      const { _id } = user;
+
+      return res.status(STATUS_CREATED).send({
         email,
-        password: hash,
-      }).then((user) => res.status(STATUS_CREATED).send(user));
+        name,
+        about,
+        avatar,
+        _id,
+      });
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(new ConflictError('Пользователь с таким электронным адресом уже зарегистрирован'));
+      } else if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные при регистрации пользователя'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 // возвращает всех пользователей//
