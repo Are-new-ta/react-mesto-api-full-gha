@@ -2,15 +2,19 @@ const Card = require('../models/card');
 const ForbiddenError = require('../errors/ForbiddenError');
 const NotFoundError = require('../errors/NotFoundError');
 
-const { STATUS_CREATED } = require('../errors/errors');
-
 // создаем карточку
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
   const { _id: userId } = req.user;
 
-  Card.create({ name, link, owner: userId })
-    .then((card) => res.status(STATUS_CREATED).send(card))
+  Card
+    .create({ name, link, owner: userId })
+    .then((card) => {
+      card
+        .populate('owner')
+        .then(() => res.status(201).send(card))
+        .catch(next);
+    })
     .catch(next);
 };
 
@@ -54,11 +58,10 @@ const dislikeCard = (req, res, next) => {
 
 // удаление карточки
 const deleteCard = (req, res, next) => {
-  const { cardId } = req.params;
+  const { id: cardId } = req.params;
   const { _id: userId } = req.user;
-  // const { owner: cardOwnerId } = card;
 
-  Card.findById({ _id: cardId })
+  Card.findById(cardId)
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Карточка с указанным id не найдена');
@@ -67,8 +70,10 @@ const deleteCard = (req, res, next) => {
       if (userId !== cardOwnerId.valueOf()) {
         throw new ForbiddenError('Нельзя удалять карточки других пользователей');
       }
-      return card.remove()
-        .then(() => res.send(card));
+      return Card.findByIdAndRemove(cardId);
+    })
+    .then((card) => {
+      res.status(200).send(card);
     })
     .catch(next);
 };

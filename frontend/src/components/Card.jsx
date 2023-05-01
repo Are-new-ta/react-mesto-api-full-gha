@@ -7,7 +7,10 @@ function Card({ card, onCardClick, onCardLike, onConfurmationDeleteCardPopup }) 
   const currentUser = useContext(CurrentUserContext);
 
   // Определяем, являемся ли мы владельцем текущей карточки
-  const isOwn = card.owner === currentUser._id;
+  const isOwn = card.owner._id === currentUser._id;
+  // console.log('card.owner ', card.owner);
+  // console.log('currentUser', currentUser);
+  // console.log('currentUser._id', currentUser._id);
 
   // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
   const isLiked = card.likes.some(i => i._id === currentUser._id);
