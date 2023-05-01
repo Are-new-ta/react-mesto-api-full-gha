@@ -43,7 +43,6 @@ function App() {
       .then(([userData, arrCards]) => {
         setCurrentUser(userData);
         setCards(arrCards.reverse());
-        // console.log("arrCards", arrCards);
       })
       .catch((error) => {
         console.log(`Ошибка: ${error}`);
@@ -78,11 +77,11 @@ function App() {
         navigate('/', { replace: true });
       })
       .then(() => getDataUser())
-    // .catch((error) => {
-    //   setLoggedIn(false);
-    //   handlerInfoTooltip();
-    //   console.log(`Ошибка: ${error}`);
-    // })
+      .catch((error) => {
+        setLoggedIn(false);
+        handlerInfoTooltip();
+        console.log(`Ошибка: ${error}`);
+      })
   }
 
   // проверка токена
@@ -99,9 +98,9 @@ function App() {
             navigate('/', { replace: true })
           }
         })
-      // .catch((error) => {
-      //   console.log(`Ошибка: ${error}`);
-      // })
+        .catch((error) => {
+          console.log(`Ошибка: ${error}`);
+        })
     }
   }, [navigate])
 
@@ -151,9 +150,7 @@ function App() {
   //popup подтверждения удаления карточки и запоминаем карточку которую нужно удалять
   function handeleConfurmationDeleteCardPopup(card) {
     setConfirmationDeleteCardPopup(!isConfirmationDeleteCardPopup);
-    setDeletedCard(card);//добавила ._id
-    console.log('card', card);
-    // console.log('card._id', card._id);
+    setDeletedCard(card);
   }
 
   function closeAllPopups() {
@@ -188,23 +185,19 @@ function App() {
 
   //удаление карточки
   function handleCardDelete(card) {
-    // console.log('card', card);
-    // console.log("card._id", card._id);
-    // setRenderLoading(true);
     api.deleteCard(card._id)
       .then(() => {
-        // console.log("card._id", card._id);
         setCards((state) => state.filter((c) => c._id === card._id ? null : c));
       })
       .then(() => {
         closeAllPopups();
       })
-    // .catch((error) => {
-    //   console.log(`Ошибка: ${error}`);
-    // })
-    // .finally(() => {
-    //   setRenderLoading(false);
-    // })
+      .catch((error) => {
+        console.log(`Ошибка: ${error}`);
+      })
+      .finally(() => {
+        setRenderLoading(false);
+      })
   }
 
   //обновляем данные юзера
